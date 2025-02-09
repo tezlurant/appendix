@@ -256,7 +256,7 @@ int main()
 static void run_bench(int seed, int selected_vert_num, std::vector<std::string> *dataFile)
 {
 
-	const int runTimes = 10;
+	const int runTimes = 30;
 	TIMER_T startT, endT;
 
 	for (int i = 0; i < dataFile->size(); ++i)
@@ -301,7 +301,7 @@ static void run_bench(int seed, int selected_vert_num, std::vector<std::string> 
 			sprintf(profFileName, "./SA_Result/SA_%s_prof.txt", (*dataFile)[i].c_str());
 			fout2_prof = fopen(profFileName, "w");
 
-			std::cout << "-SA COLD" << std::endl;
+			//std::cout << "-SA COLD" << std::endl;
 
 			SA_init_F(p, (folder+(*dataFile)[i]).c_str());
 			SA_set_prof_file(fout2_prof);
@@ -315,7 +315,7 @@ static void run_bench(int seed, int selected_vert_num, std::vector<std::string> 
 			fprintf(fout2, "%s,", (*dataFile)[i].c_str());
 			for (int j = 0; j < runTimes; ++j)
 			{
-				std::cout << "#" << j << " ";
+				//std::cout << "#" << j << " ";
 
 				SA_reset(); // TODO: not working
 
@@ -329,7 +329,7 @@ static void run_bench(int seed, int selected_vert_num, std::vector<std::string> 
 				//while (-1 != *P) P++;
 				//long fvsNum = SA_get_nbVerts() - (P - SA_getBestSolution()) + SA_get_nbLoop();
 				long fvsNum = SA_get_nbVerts() - SA_maxDAG() + SA_get_nbLoop();
-				std::cout<<"fvs="<<fvsNum<<std::endl;
+				//std::cout<<"fvs="<<fvsNum<<std::endl;
 
 				totalFvsNum += fvsNum;
 				if (fvsNum > maxFvs)
@@ -348,7 +348,7 @@ static void run_bench(int seed, int selected_vert_num, std::vector<std::string> 
 			//SA_init_F(p, (folder+(*dataFile)[i]).c_str());
 			double deviation = 0.0;
 			double avg = (double)totalFvsNum / runTimes;
-			printf("avg=%lf\n", avg);
+			printf("avg=%lf\n\n", avg);
 			for (int k : allFvs)
 			{
 				deviation += ((k - (double)totalFvsNum / runTimes) * (k - (double)totalFvsNum / runTimes));

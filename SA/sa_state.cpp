@@ -532,6 +532,44 @@ cLsGet(sa_state s,
   return s->cList[i];
 }
 
+
+
+void
+updateStagnantBitList(sa_state s) 
+{
+  for(int i=0;i<s->G->v;i++)
+  {
+    stagnantBitList[i] = false;
+  }
+  for(int i = 0; i < s->cLs; i++)
+  {
+    stagnantBitList[s->cList[i]] = true;
+  }
+  return;
+}
+
+int
+ansDistance(sa_state s) 
+{
+  for(int i=0;i<s->G->v;i++)
+  {
+    stagnantBitList[i] = false;
+  }
+  for(int i = 0; i < s->cLs; i++)
+  {
+    currentStagnantBitList[s->cList[i]] = true;
+  }
+  int dist = 0;
+  for(int i=0;i<s->G->v;i++)
+  {
+    if(stagnantBitList[i] != currentStagnantBitList[i])
+    {
+      dist++;
+    }
+  }
+  return dist;
+}
+
 /* Returns how many elements will be removed if position
    p is used. */
 static int

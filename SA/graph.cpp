@@ -152,9 +152,9 @@ loadG(FILE *stream)
   }
 
 
-  cout<<"n = "<<init_vCount<<endl;
-  cout<<"n' = "<<now_vCount<<endl;
-  cout<<"自己ループ="<<loopCount<<endl;
+  //cout<<"n = "<<init_vCount<<endl;
+  //cout<<"n' = "<<now_vCount<<endl;
+  //cout<<"自己ループ="<<loopCount<<endl;
 
   G->v = now_vCount;
   G->e = now_eCount;
@@ -165,7 +165,7 @@ loadG(FILE *stream)
 
 // #ifndef NDEBUG
   if (!alreadyPrinted) {
-    printf("# V=%li,E=%li,d(v)=%f,logV=%f\n", G->v, G->e, (float)G->e/(float)G->v, log2f(G->v));
+    //printf("# V=%li,E=%li,d(v)=%f,logV=%f\n", G->v, G->e, (float)G->e/(float)G->v, log2f(G->v));
     alreadyPrinted = 0;
   }
 // #endif

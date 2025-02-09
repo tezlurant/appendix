@@ -10,7 +10,7 @@ extern "C" {
 #include <stdlib.h>
 #include <time.h>
 
-#define Node 1000
+#define Node 50
 
 #ifndef INIT_OPS // initial ops to be printed in the file
 #define INIT_OPS 5000

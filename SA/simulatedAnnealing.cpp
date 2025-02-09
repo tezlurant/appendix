@@ -78,12 +78,13 @@ executeSA5(
       cLs2++;
     }
   }
+  updateStagnantBitList(s);
 
   int stagnantCount = 0; // 停滞回数
 
   const long double eps = 1e-9; // 誤差
   const int initDeteriorationLimit = 1; // 改悪の初期値
-  const int deteriorationLimitMax = 5; // 改悪の上限の最大値
+  const int deteriorationLimitMax = 50; // 改悪の上限の最大値
   int deteriorationLimit = initDeteriorationLimit; // 改悪の上限(defaultは1,maxは5?)
   //std::mt19937 engine(0); // シードに現在時刻を使用
   //std::uniform_real_distribution<double> dist(0.0, 1.0); // 0.0以上1.0未満の一様乱数
@@ -107,7 +108,7 @@ executeSA5(
     int v = cLsGet(s, 0);
     pdE = check(s, dE);
     
-    SA_printLine2(T);
+    //SA_printLine2(T);
     if (
        dE <= pdE
        ) 
@@ -134,8 +135,20 @@ executeSA5(
       }
     }
     stagnantCount++;
-    
-    if(stagnantCount >= 5*sgv){ //5,10,20
+    long long currentF =  SA_get_nbVerts()-getE(s) + SA_get_nbLoop();
+    long double fp = pow(2,(long double)sgv/(long double)currentF);
+    //long double fp = (long double)sgv/(long double)currentF;
+    long long sgvFp = 2*sgv*fp;
+    if(stagnantCount >= sgvFp){ //5,10,20
+      //解のサイズで判定(3%で判定)
+      // if(SA_maxDAG()-getE(s)>(3*sgv)/100){
+      //   deteriorationLimit = initDeteriorationLimit - 1;
+      // }
+      //解の距離で判定 (何%?離れていればいい？)
+      if(ansDistance(s) > sgv/5){
+        deteriorationLimit = initDeteriorationLimit - 1;
+        updateStagnantBitList(s);
+      }
       //Tに何か加算or乗算
       // 改悪の上限を1加算する(ただし上限は定める1000なら5まで？)
       deteriorationLimit++;
@@ -148,8 +161,11 @@ executeSA5(
       TIMER_T curTime;
 		  TIMER_READ(curTime);
       double currentTime = CLOCK_DIFF_MS(sa->startTime, curTime); 
-      T = T0*(1-currentTime/(double)MAXTIME); //deterLimによって倍率変更する？
+      //T = T0*(1-currentTime/(double)MAXTIME); //deterLimによって倍率変更する？
+      double beta = 0.5;
+      T = T0*(1 - beta/((double)deteriorationLimit));
       //T = T0;
+      //T = currentF*0.001*initDeteriorationLimit;
       for(int i = 0; i < sgv; i++){
         pdELog[i] = INF;
       }

@@ -432,7 +432,7 @@ SA_run()
     //printf("%f\n",CLOCK_DIFF_MS(sa->startTime, curTime));
 		if (CLOCK_DIFF_MS(sa->startTime, curTime) > MAXTIME)
       {
-        printf("TIMEOUT\n");
+        //printf("TIMEOUT\n");
 			  goto EXITPOS_SA;
       }
 #endif
@@ -453,8 +453,8 @@ EXITPOS_SA:
   
   *L = -1;
   L = P;
-  printf("countLoop=%d\n", countLoop);
-  printf("ops=%lu\n", sa->ops);
+  //printf("countLoop=%d\n", countLoop);
+  //printf("ops=%lu\n", sa->ops);
 }
 
 void

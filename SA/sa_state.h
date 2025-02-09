@@ -10,6 +10,8 @@ int cList2[MAX_V];
 int iterCList2[MAX_V]; // 解集合に含まれているかどうか(含まれてるなら何番目か)
 int repushL = 0; // repushに入ってるサイズ
 int repushList[MAX_V]; //repushで隣接点を評価するためのリスト
+bool stagnantBitList[MAX_V];
+bool currentStagnantBitList[MAX_V];
 int cLs2 = 0;
 #ifdef POSTSCRIPT
 extern FILE *LOG;
@@ -112,6 +114,14 @@ int
 cLsGet(sa_state s,
         int i
         );
+
+void
+updateStagnantBitList(sa_state s
+                      );
+
+int
+ansDistance(sa_state s
+            );
 
 void
 neighborInitPdELog(sa_state s,
